@@ -14,9 +14,11 @@ export function initProvide (vm: Component) {
 }
 
 export function initInjections (vm: Component) {
+  // 把 vm.$options.inject 的所有属性，并且这些属性在 vm._provided 中存在的提取出来，存入result
   const result = resolveInject(vm.$options.inject, vm)
   if (result) {
     toggleObserving(false)
+    // 遍历这些属性存入 Vue 实例 vm 中，并设置为响应式
     Object.keys(result).forEach(key => {
       /* istanbul ignore else */
       if (process.env.NODE_ENV !== 'production') {
