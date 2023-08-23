@@ -60,6 +60,7 @@ export function setCurrentRenderingInstance (vm: Component) {
 
 export function renderMixin (Vue: Class<Component>) {
   // install runtime convenience helpers
+  // 安装渲染的一些帮助方法
   installRenderHelpers(Vue.prototype)
 
   Vue.prototype.$nextTick = function (fn: Function) {
@@ -68,7 +69,8 @@ export function renderMixin (Vue: Class<Component>) {
 
   Vue.prototype._render = function (): VNode {
     const vm: Component = this
-    const { render, _parentVnode } = vm.$options
+    // 用户定义的 render 或者是 template 渲染出的 render
+    const { render, _parentVnode } = vm.$options  
 
     if (_parentVnode) {
       vm.$scopedSlots = normalizeScopedSlots(

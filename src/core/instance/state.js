@@ -327,6 +327,7 @@ export function stateMixin (Vue: Class<Component>) {
   dataDef.get = function () { return this._data }
   const propsDef = {}
   propsDef.get = function () { return this._props }
+  // 开发环境中不允许直接给 $data 和 $props 赋值
   if (process.env.NODE_ENV !== 'production') {
     dataDef.set = function () {
       warn(

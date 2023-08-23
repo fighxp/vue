@@ -22,6 +22,7 @@ Vue.prototype.$mount = function (
   el = el && query(el)
 
   /* istanbul ignore if */
+  // 判断 el 不能是body 不能是 document
   if (el === document.body || el === document.documentElement) {
     process.env.NODE_ENV !== 'production' && warn(
       `Do not mount Vue to <html> or <body> - mount to normal elements instead.`
@@ -31,6 +32,7 @@ Vue.prototype.$mount = function (
 
   const options = this.$options
   // resolve template/el and convert to render function
+  // 把 tempalte/el 转换成 render 函数
   if (!options.render) {
     let template = options.template
     if (template) {
@@ -79,6 +81,8 @@ Vue.prototype.$mount = function (
       }
     }
   }
+
+  // 调用 mount 方法渲染dom
   return mount.call(this, el, hydrating)
 }
 

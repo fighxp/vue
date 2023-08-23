@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <div id="app"></div>
+  <script src="../../dist/vue.js"></script>
+
+  <script>
+    var profile = Vue.extend({
+      template: "<p>{{firstName}} {{lastName}}</p>",
+      data () {
+        return {
+          firstName: "li",
+          lastName: "na"
+        }
+      }
+    })
+
+    // new profile().$mount("#app")
+    // new profile({ el: "#app" })
+
+    // 在文档之外渲染
+    new profile().$mount()
+  </script>
+</body>
+
+</html>

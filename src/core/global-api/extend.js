@@ -16,6 +16,7 @@ export function initExtend (Vue: GlobalAPI) {
   /**
    * Class inheritance
    */
+  // 参数：组件的选项
   Vue.extend = function (extendOptions: Object): Function {
     extendOptions = extendOptions || {}
     const Super = this
@@ -30,9 +31,13 @@ export function initExtend (Vue: GlobalAPI) {
       validateComponentName(name)
     }
 
+    // 组件的构造函数
     const Sub = function VueComponent (options) {
+      // 调用 _init() 初始化
       this._init(options)
     }
+    
+    // 改变的对象的原型，集成 Vue
     Sub.prototype = Object.create(Super.prototype)
     Sub.prototype.constructor = Sub
     Sub.cid = cid++

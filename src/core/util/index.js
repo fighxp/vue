@@ -1,9 +1,10 @@
 /* @flow */
 
-export * from 'shared/util'
+
+export * from 'shared/util'    // extend 方法
 export * from './lang'
 export * from './env'
-export * from './options'
+export * from './options'   // mergeOptions 
 export * from './debug'
 export * from './props'
 export * from './error'
