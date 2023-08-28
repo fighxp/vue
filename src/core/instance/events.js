@@ -14,8 +14,9 @@ export function initEvents (vm: Component) {
   vm._events = Object.create(null)
   vm._hasHookEvent = false
   // init parent attached events
-  // 获取父元素上附加的事件
+  // 获取父元素绑定到该组件的事件
   const listeners = vm.$options._parentListeners
+  // 父组件是否有将钩子函数绑定到该组件上。如果父组件有绑定事件到该组件上则调用updateComponentListeners方法
   if (listeners) {
     // 注册自定义事件
     updateComponentListeners(vm, listeners)

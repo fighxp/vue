@@ -49,6 +49,7 @@ export function proxy (target: Object, sourceKey: string, key: string) {
 export function initState (vm: Component) {
   vm._watchers = []
   const opts = vm.$options
+  // 把 opts 中的 props 转换为响应式的，同时存储到 vue 的实例 vm 中
   if (opts.props) initProps(vm, opts.props)
   if (opts.methods) initMethods(vm, opts.methods)
   if (opts.data) {
@@ -86,6 +87,7 @@ function initProps (vm: Component, propsOptions: Object) {
           vm
         )
       }
+      // 把所有的属性存储到 wm._props 中
       defineReactive(props, key, value, () => {
         if (!isRoot && !isUpdatingChildComponent) {
           warn(
@@ -103,6 +105,7 @@ function initProps (vm: Component, propsOptions: Object) {
     // static props are already proxied on the component's prototype
     // during Vue.extend(). We only need to proxy props defined at
     // instantiation here.
+    // 判断当前属性在 vue 实例中是否存在， vm 中不存在，就把 _props 中的属性存储到 vm 实例中
     if (!(key in vm)) {
       proxy(vm, `_props`, key)
     }
@@ -112,6 +115,9 @@ function initProps (vm: Component, propsOptions: Object) {
 
 function initData (vm: Component) {
   let data = vm.$options.data
+  // 初始化 _data，组件中data 是函数，调用函数返回结果
+  // 否则直接返回data
+
   data = vm._data = typeof data === 'function'
     ? getData(data, vm)
     : data || {}
@@ -124,10 +130,13 @@ function initData (vm: Component) {
     )
   }
   // proxy data on instance
+  // 获取data 中的所有属性
   const keys = Object.keys(data)
+  // 获取props / methods 
   const props = vm.$options.props
   const methods = vm.$options.methods
   let i = keys.length
+  // 判断data上的成员 是否和props/methods 重名
   while (i--) {
     const key = keys[i]
     if (process.env.NODE_ENV !== 'production') {
@@ -149,6 +158,7 @@ function initData (vm: Component) {
     }
   }
   // observe data
+  // 响应式处理
   observe(data, true /* asRootData */)
 }
 
@@ -273,6 +283,7 @@ function initMethods (vm: Component, methods: Object) {
           vm
         )
       }
+      // 当前定义的 methods 是否在 props 中存在，确保 method 和 props 的属性名同名
       if (props && hasOwn(props, key)) {
         warn(
           `Method "${key}" has already been defined as a prop.`,
@@ -286,6 +297,7 @@ function initMethods (vm: Component, methods: Object) {
         )
       }
     }
+    // bind 改变函数 this 的指向，将函数的 this 指向 Vue 的实例  vm
     vm[key] = typeof methods[key] !== 'function' ? noop : bind(methods[key], vm)
   }
 }

@@ -61,7 +61,7 @@ export function initMixin (Vue: Class<Component>) {
     // vm 的生命周期相关变量初始化
     // $children/$parent/$root/$refs
     initLifecycle(vm)
-    // vm 的事件监听初始化，父组件绑定在当前组件上的事件
+    // vm 的事件监听初始化，父组件绑定在当前组件上的事件（父组件是否有将事件挂载在当前组件上）
     initEvents(vm)
     // vm 的编译 render 初始化
     // $slots/$scopedSlots/_c/$createElement/$attrs/$listeners
