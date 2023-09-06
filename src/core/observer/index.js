@@ -35,15 +35,21 @@ export function toggleObserving (value: boolean) {
  * collect dependencies and dispatch updates.
  */
 export class Observer {
+  // 观测对象
   value: any;
+  // 依赖对象
   dep: Dep;
+  // 实例计数器
   vmCount: number; // number of vms that have this object as root $data
 
   constructor (value: any) {
     this.value = value
     this.dep = new Dep()
+    // 初始化实例的 vmCount 为 0 
     this.vmCount = 0
+    // 将实例挂载到观察对象的 __ob__ 属性
     def(value, '__ob__', this)
+    // 数组的响应式处理
     if (Array.isArray(value)) {
       if (hasProto) {
         protoAugment(value, arrayMethods)
@@ -52,6 +58,7 @@ export class Observer {
       }
       this.observeArray(value)
     } else {
+      // 遍历对象中的每一个属性，转换成 setter / getter 
       this.walk(value)
     }
   }
@@ -62,7 +69,9 @@ export class Observer {
    * value type is Object.
    */
   walk (obj: Object) {
+    // 获取观察对象的每一个属性
     const keys = Object.keys(obj)
+    // 遍历每一个属性，设置为响应式数据
     for (let i = 0; i < keys.length; i++) {
       defineReactive(obj, keys[i])
     }
@@ -71,6 +80,7 @@ export class Observer {
   /**
    * Observe a list of Array items.
    */
+  // 对数组作响应式处理
   observeArray (items: Array<any>) {
     for (let i = 0, l = items.length; i < l; i++) {
       observe(items[i])
@@ -107,11 +117,14 @@ function copyAugment (target: Object, src: Object, keys: Array<string>) {
  * returns the new observer if successfully observed,
  * or the existing observer if the value already has one.
  */
+// 试图创建一个 observe 对象，创建一个新的 observe 对象，或者将已经存在的 observer 对象返回
 export function observe (value: any, asRootData: ?boolean): Observer | void {
+  // 判断value是否是对象
   if (!isObject(value) || value instanceof VNode) {
     return
   }
   let ob: Observer | void
+  // 如果value 有 __ob__ ( observer对象) 属性结束
   if (hasOwn(value, '__ob__') && value.__ob__ instanceof Observer) {
     ob = value.__ob__
   } else if (

@@ -22,7 +22,7 @@ export function isReserved (str: string): boolean {
 export function def (obj: Object, key: string, val: any, enumerable?: boolean) {
   Object.defineProperty(obj, key, {
     value: val,
-    enumerable: !!enumerable,
+    enumerable: !!enumerable,    // enumerable 为 undefined ，!enumerable 为 ture，!!enumerable为false，这里 设置 obj 为不可枚举
     writable: true,
     configurable: true
   })
